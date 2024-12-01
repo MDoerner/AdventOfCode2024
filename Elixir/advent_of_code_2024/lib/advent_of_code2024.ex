@@ -4,18 +4,22 @@ defmodule AdventOfCode2024 do
   """
 
   @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> AdventOfCode2024.hello()
-      :world
-
+  Solve AdventOfCode 2024 problem.
   """
-  def solve_problem(day, part) do
+  @spec solve_problem(1..25, 1..2, boolean()) :: String.t()
+  def solve_problem(day, part, timed \\ false) do
     input_text = InputReader.read_day_input(day)
     solver = day_solver(day)
     input = DaySolver.parse_input(solver, input_text)
+    if timed do
+      :timer.tc(&solve_part/3, [solver, input, part])
+    else
+      solve_part(solver, input, part)
+    end
+  end
+
+  @spec solve_problem(DaySolver.day_solver(), String.t(), 1..2) :: String.t()
+  defp solve_part(solver, input, part) do
     if part == 1 do
       DaySolver.solve_part1(solver, input)
     else
@@ -23,8 +27,9 @@ defmodule AdventOfCode2024 do
     end
   end
 
+  @spec day_solver(1..25) :: DaySolver.day_solver()
   defp day_solver(day) do
-    "Elixir.Day#{day}" |>
+    "Elixir.Days.Day#{day}" |>
       String.to_existing_atom |>
       struct
   end

@@ -8,9 +8,10 @@ defmodule InputReader do
 
   ## Examples
 
-      iex> InputReader.read_day_input(6)
+      iex> InputReader.read_day_input(1)
 
   """
+  @spec read_day_input(integer()) :: String.t()
   def read_day_input(day) do
     filename = "#{File.cwd!}/../../Inputs/Day#{day}.txt"
     {:ok, contents} = File.read(filename)
