@@ -6,7 +6,7 @@ defmodule AdventOfCode2024 do
   @doc """
   Solve AdventOfCode 2024 problem.
   """
-  @spec solve_problem(1..25, 1..2, boolean()) :: String.t()
+  @spec solve_problem(1..25, 1..2, boolean()) :: String.t() | {integer(), String.t()}
   def solve_problem(day, part, timed \\ false) do
     input_text = InputReader.read_day_input(day)
     solver = day_solver(day)

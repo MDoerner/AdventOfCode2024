@@ -26,7 +26,7 @@ defmodule Day1Test do
     input = DaySolver.parse_input(solver, input_string)
     {execution_time, actual_result} = :timer.tc(&DaySolver.solve_part1/2, [solver, input])
     IO.inspect(execution_time, label: "day 1 part 1 example execution time in microseconds")
-    expected_result = 11
+    expected_result = "11"
     assert actual_result == expected_result
   end
 
@@ -36,7 +36,7 @@ defmodule Day1Test do
     input = DaySolver.parse_input(solver, input_string)
     {execution_time, actual_result} = :timer.tc(&DaySolver.solve_part1/2, [solver, input])
     IO.inspect(execution_time, label: "day 1 part 1 real execution time in microseconds")
-    expected_result = 2378066
+    expected_result = "2378066"
     assert actual_result == expected_result
   end
 
@@ -51,7 +51,7 @@ defmodule Day1Test do
     input = DaySolver.parse_input(solver, input_string)
     {execution_time, actual_result} = :timer.tc(&DaySolver.solve_part2/2, [solver, input])
     IO.inspect(execution_time, label: "day 1 part 2 example execution time in microseconds")
-    expected_result = 31
+    expected_result = "31"
     assert actual_result == expected_result
   end
 
@@ -61,7 +61,7 @@ defmodule Day1Test do
     input = DaySolver.parse_input(solver, input_string)
     {execution_time, actual_result} = :timer.tc(&DaySolver.solve_part2/2, [solver, input])
     IO.inspect(execution_time, label: "day 1 part 2 real execution time in microseconds")
-    expected_result = 18934359
+    expected_result = "18934359"
     assert actual_result == expected_result
   end
 end
