@@ -28,7 +28,7 @@ defmodule AdventOfCode2024 do
   end
 
   @spec day_solver(1..25) :: DaySolver.day_solver()
-  defp day_solver(day) do
+  def day_solver(day) do
     "Elixir.Days.Day#{day}" |>
       String.to_existing_atom |>
       struct

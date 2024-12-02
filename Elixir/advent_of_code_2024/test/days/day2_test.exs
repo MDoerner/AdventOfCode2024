@@ -1,18 +1,18 @@
-defmodule Day1Test do
+defmodule Day2Test do
   use ExUnit.Case
 
   setup_all do
-    {:ok, %{day: 1}}
+    {:ok, %{day: 2}}
   end
 
-  test "day 1 parsing works for sample input", context do
-    input_string = ~s"3   4
-4   3
-2   5
-1   3
-3   9
-3   3"
-    expected_input = {[3, 4, 2, 1, 3, 3], [4, 3, 5, 3, 9, 3]}
+  test "day 2 parsing works for sample input", context do
+    input_string = ~s"7 6 4 2 1
+1 2 7 8 9
+9 7 6 2 1
+1 3 2 4 5
+8 6 4 4 1
+1 3 6 7 9"
+    expected_input = [[7, 6, 4, 2, 1], [1, 2, 7, 8, 9], [9, 7, 6, 2, 1], [1, 3, 2, 4, 5], [8, 6, 4, 4, 1], [1, 3, 6, 7, 9]]
 
     solver = AdventOfCode2024.day_solver(context[:day])
     {execution_time, actual_input} = :timer.tc(&DaySolver.parse_input/2, [solver, input_string])
@@ -20,14 +20,14 @@ defmodule Day1Test do
     assert actual_input == expected_input
   end
 
-  test "day 1 part 1 works for sample input", context do
-    input_string = ~s"3   4
-4   3
-2   5
-1   3
-3   9
-3   3"
-    expected_result = "11"
+  test "day 2 part 1 works for sample input", context do
+    input_string = ~s"7 6 4 2 1
+1 2 7 8 9
+9 7 6 2 1
+1 3 2 4 5
+8 6 4 4 1
+1 3 6 7 9"
+    expected_result = "2"
 
     solver = AdventOfCode2024.day_solver(context[:day])
     input = DaySolver.parse_input(solver, input_string)
@@ -36,9 +36,9 @@ defmodule Day1Test do
     assert actual_result == expected_result
   end
 
-  test "day 1 part 1 works for real input", context do
-    input_string = InputReader.read_day_input(1)
-    expected_result = "2378066"
+  test "day 2 part 1 works for real input", context do
+    input_string = InputReader.read_day_input(context[:day])
+    expected_result = "407"
 
     solver = AdventOfCode2024.day_solver(context[:day])
     input = DaySolver.parse_input(solver, input_string)
@@ -47,14 +47,14 @@ defmodule Day1Test do
     assert actual_result == expected_result
   end
 
-  test "day 1 part 2 works for sample input", context do
-    input_string = ~s"3   4
-4   3
-2   5
-1   3
-3   9
-3   3"
-    expected_result = "31"
+  test "day 2 part 2 works for sample input", context do
+    input_string = ~s"7 6 4 2 1
+1 2 7 8 9
+9 7 6 2 1
+1 3 2 4 5
+8 6 4 4 1
+1 3 6 7 9"
+    expected_result = "4"
 
     solver = AdventOfCode2024.day_solver(context[:day])
     input = DaySolver.parse_input(solver, input_string)
@@ -63,9 +63,9 @@ defmodule Day1Test do
     assert actual_result == expected_result
   end
 
-  test "day 1 part 2 works for real input", context do
-    input_string = InputReader.read_day_input(1)
-    expected_result = "18934359"
+  test "day 2 part 2 works for real input", context do
+    input_string = InputReader.read_day_input(context[:day])
+    expected_result = "459"
 
     solver = AdventOfCode2024.day_solver(context[:day])
     input = DaySolver.parse_input(solver, input_string)
