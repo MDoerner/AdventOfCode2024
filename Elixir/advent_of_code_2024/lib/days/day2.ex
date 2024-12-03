@@ -99,46 +99,39 @@ defmodule Days.Day2 do
     defp safe_sequence_with_dampener?(sequence) do
       [first | tail] = sequence
       [second | remainder] = tail # Will not fail because of other variants of the function's definition.
-      if first == second do
-        safe_sequence?(tail)
-      else
-        without_first_ok = safe_sequence?(tail)
-        if without_first_ok do
-          true
-        else
-          without_second_ok = safe_sequence?([first] ++ remainder)
-          if without_second_ok do
-            true
+      cond do
+        first == second -> safe_sequence?(tail) #we have to remove first or second and which does not matter
+        safe_sequence?(tail) -> true #safe without first
+        safe_sequence?([first] ++ remainder) -> true #safe without second
+        not (safe_next_value?(second, 1, first) or safe_next_value?(second, -1, first)) -> false #the first two are required if we reach this
+        true -> safe_sequence_with_dampener_first_two_valid_and_required?(first, second, remainder)
+      end
+    end
+
+    @spec safe_sequence_with_dampener_first_two_valid_and_required?(integer(), integer(),list(integer())) :: boolean()
+    defp safe_sequence_with_dampener_first_two_valid_and_required?(first, second, remaining_sequence) do
+      direction = trunc((second - first)/abs(second - first))
+      initial_state = {true, first, second, remaining_sequence}
+      {safe, _, _, _} = Enum.reduce_while(
+        remaining_sequence,
+        initial_state,
+        fn next_value, {_, value_two_back, previous_value, remaining} ->
+          new_remaining = tl(remaining)
+          if safe_next_value?(next_value, direction, previous_value) do
+            {:cont, {true, previous_value, next_value, new_remaining}}
           else
-            direction = trunc((second - first)/abs(second - first))
-            if not safe_next_value?(second, direction, first) do
-              false
+            if Enum.empty?(new_remaining) do
+              {:halt, {true, value_two_back, previous_value, new_remaining}}
             else
-              initial_state = {true, first, second, remainder}
-              {safe, _, _, _} = Enum.reduce_while(
-                remainder,
-                initial_state,
-                fn next_value, {_, value_two_back, previous_value, remaining} ->
-                  new_remaining = tl(remaining)
-                  if safe_next_value?(next_value, direction, previous_value) do
-                    {:cont, {true, previous_value, next_value, new_remaining}}
-                  else
-                    if Enum.empty?(new_remaining) do
-                      {:halt, {true, value_two_back, previous_value, new_remaining}}
-                    else
-                      is_safe = (safe_next_value?(next_value, direction, value_two_back)
-                          and safe_sequence_in_direction?(next_value, new_remaining, direction))
-                        or safe_sequence_in_direction?(previous_value, new_remaining, direction)
-                      {:halt, {is_safe, previous_value, next_value, new_remaining}}
-                    end
-                  end
-                end
-              )
-              safe
+              is_safe = (safe_next_value?(next_value, direction, value_two_back)
+                  and safe_sequence_in_direction?(next_value, new_remaining, direction))
+                or safe_sequence_in_direction?(previous_value, new_remaining, direction)
+              {:halt, {is_safe, previous_value, next_value, new_remaining}}
             end
           end
         end
-      end
+      )
+      safe
     end
   end
 end
