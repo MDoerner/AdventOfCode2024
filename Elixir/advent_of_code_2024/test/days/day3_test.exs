@@ -50,7 +50,7 @@ defmodule Day3Test do
 
   test "day 3 part 2 works for real input", context do
     input_string = InputReader.read_day_input(context[:day])
-    expected_result = "42"
+    expected_result = "83595109"
 
     solver = AdventOfCode2024.day_solver(context[:day])
     input = DaySolver.parse_input(solver, input_string)
