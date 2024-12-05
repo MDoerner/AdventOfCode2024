@@ -35,14 +35,14 @@ defmodule Days.Day4 do
     @spec solve_part1(%Days.Day4{}, day_input()) :: String.t()
     def solve_part1(_day_solver, input) do
       Map.keys(input) |>
-        Enum.map(fn point -> matches_at(point, input, "XMAS") end) |>
+        Enum.map(fn point -> matches_at(point, input, String.graphemes("XMAS")) end) |>
         Enum.sum() |>
         to_string()
     end
 
-    @spec matches_at({non_neg_integer(), non_neg_integer()}, day_input(), String.t()) :: non_neg_integer()
+    @spec matches_at({non_neg_integer(), non_neg_integer()}, day_input(), list(String.t())) :: non_neg_integer()
     defp matches_at(point, letters, sought) do
-      if letters[point] == String.first(sought) do
+      if letters[point] == hd(sought) do
         directions = [{0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}]
         Enum.count(directions, fn direction -> match_in_direction?(point, direction, letters, sought) end)
       else
@@ -50,10 +50,9 @@ defmodule Days.Day4 do
       end
     end
 
-    @spec match_in_direction?({non_neg_integer(), non_neg_integer()}, {non_neg_integer(), non_neg_integer()}, day_input(), String.t()) :: boolean()
+    @spec match_in_direction?({non_neg_integer(), non_neg_integer()}, {non_neg_integer(), non_neg_integer()}, day_input(), list(String.t())) :: boolean()
     defp match_in_direction?({y, x}, {y_dir, x_dir}, letters, sought) do
       sought |>
-      String.graphemes() |>
       Enum.with_index() |>
       Enum.all?(fn {letter, offset} ->
         letter == letters[{y + offset * y_dir, x + offset * x_dir}]
