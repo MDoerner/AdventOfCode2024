@@ -36,7 +36,7 @@ defmodule Days.Day5 do
     end
 
 
-    @spec solve_part1(%Days.Day4{}, day_input()) :: String.t()
+    @spec solve_part1(%Days.Day5{}, day_input()) :: String.t()
     def solve_part1(_day_solver, input) do
       {rules, manuals} = input
       manuals |>
