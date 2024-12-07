@@ -81,7 +81,7 @@ defmodule Days.Day6 do
 
 
 
-    @spec solve_part2(%Days.Day5{}, day_input()) :: String.t()
+    @spec solve_part2(%Days.Day6{}, day_input()) :: String.t()
     def solve_part2(_day_solver, input) do
       {map_dimensions, obstacles, start_position} = input
       start_direction = {-1, 0}

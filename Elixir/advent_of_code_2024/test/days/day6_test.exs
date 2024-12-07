@@ -81,7 +81,7 @@ defmodule Day6Test do
   end
 
   @tag timeout: :infinity
-  test "day 5 part 2 works for real input", context do
+  test "day 6 part 2 works for real input", context do
     input_string = InputReader.read_day_input(context[:day])
     expected_result = "2188"
 
