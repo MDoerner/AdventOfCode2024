@@ -20,7 +20,7 @@ defmodule Days.Day9 do
         String.graphemes() |>
         Enum.map(&String.to_integer/1)
       {_, reverse_data, reverse_spaces} = run_lengths |>
-        Enum.with_index() |>
+        Stream.with_index() |>
         Enum.reduce({0, [], []}, fn {block_length, index}, {block_start, data_blocks, empty_blocks} ->
           next_block_start = block_start + block_length
           if rem(index, 2) == 0 do
@@ -116,7 +116,7 @@ defmodule Days.Day9 do
       {compacted, _} = reverse_data_blocks |>
         Enum.reduce({[], empty_spaces}, fn {id, {data_index, data_length}}, {compacted_blocks, current_empty_blocks} ->
           {{empty_index, empty_length}, list_index} = current_empty_blocks |>
-            Enum.with_index() |>
+            Stream.with_index() |>
             Enum.find({{0, 0}, -1}, fn {{disk_index, block_length}, _} ->
               block_length >= data_length or data_index < disk_index
             end)
