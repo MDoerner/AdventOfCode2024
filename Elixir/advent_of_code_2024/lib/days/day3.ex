@@ -26,7 +26,6 @@ defmodule Days.Day3 do
     @spec solve_part2(%Days.Day3{}, day_input()) :: String.t()
     def solve_part2(_day_solver, input) do
       instructions = Regex.scan(~r"(?:mul\((\d{1,3}),(\d{1,3})\))|(?:don't\(\))|(?:do\(\))", input)
-      IO.inspect(instructions)
       initial_state = {true, []}
       {_, results} = Enum.reduce(
         instructions,
