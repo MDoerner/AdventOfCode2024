@@ -84,9 +84,11 @@ defmodule Days.Day14 do
     @spec solve_part2(%Days.Day14{}, day_input()) :: String.t()
     def solve_part2(_day_solver, input) do
       {dimensions, robots} = input
-      robots |>
-        Enum.map(fn robot -> robot_position(robot, 10, dimensions) end) |>
-        print_positions(dimensions)
+      {time, positions} = next_non_overlap_time(robots, dimensions, 0)
+      state = print_positions(positions, dimensions)
+      filename = "#{File.cwd!}/outputs/Day4_position.txt"
+      File.write(filename, state)
+      to_string(time)
     end
 
     @spec print_positions(list(position()), map_dimensions()) :: String.t()
@@ -105,12 +107,23 @@ defmodule Days.Day14 do
                 " "
               end
             end) |>
-            Enum.join() |>
-            IO.inspect()
+            Enum.join()
         end) |>
         Enum.join("\r\n")
     end
 
-
+    @spec next_non_overlap_time(list(robot()), map_dimensions(), non_neg_integer()) :: {non_neg_integer(), list(position())}
+    defp next_non_overlap_time(robots, dimensions, start_time) do
+      positions = Enum.map(robots, fn robot -> robot_position(robot, start_time, dimensions) end)
+      max_same_position_counts = positions |>
+        Enum.frequencies() |>
+        Map.values() |>
+        Enum.max()
+      if max_same_position_counts == 1 do
+        {start_time, positions}
+      else
+        next_non_overlap_time(robots, dimensions, start_time + 1)
+      end
+    end
   end
 end
