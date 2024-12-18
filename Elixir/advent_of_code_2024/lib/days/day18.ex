@@ -104,6 +104,65 @@ defmodule Days.Day18 do
       0 <= y and 0 <= x and y < height and x < width
     end
 
+    @spec shortest_distance_A(start_point(), end_point(), map_dimensions(), corruptions()) :: integer()
+    defp shortest_distance_A(start_point, end_point, dimensions, corruptions) do
+      distances_to_start_A(
+        end_point,
+        dimensions,
+        corruptions,
+        %{},
+        Heap.new(fn {loss_1, _, _}, {loss_2, _, _} -> loss_1 <= loss_2 end) |>
+          Heap.push({a_heuristic(start_point, end_point), 0, start_point})
+      )
+    end
+
+    @spec a_heuristic(position(), end_point()) :: non_neg_integer()
+    defp a_heuristic(point, end_point) do
+      manhatten_distance(point, end_point) |>
+        Bitwise.bsr(1)
+    end
+
+    @spec manhatten_distance(position(), position()) :: non_neg_integer()
+    defp manhatten_distance(point, other_point) do
+      {x_1, y_1} = point
+      {x_2, y_2} = other_point
+      abs(x_1 - x_2) + abs(y_1 - y_2)
+    end
+
+
+    @spec distances_to_start_A(end_point(), map_dimensions(), corruptions(), %{position() => non_neg_integer()}, Heap.t()) :: integer()
+    defp distances_to_start_A(end_point, dimensions, corruptions, known_distances, interesting_points) do
+      if Heap.empty?(interesting_points) do
+        # The end point is not reachable.
+        -1
+      else
+        {_loss, distance, point} = Heap.root(interesting_points)
+        if point == end_point do
+          distance
+        else
+          remaining_heap = Heap.pop(interesting_points)
+          if Map.has_key?(known_distances, point) do
+            # We have found this point and direction already with lower distance.
+            # We need to check this because we do not delete old versions on update of distance.
+            distances_to_start_A(end_point, dimensions, corruptions, known_distances, remaining_heap)
+          else
+            new_known = Map.put(known_distances, point, distance)
+            accessible_neighbours = neighbours(point) |>
+              Enum.filter(fn neighbour ->
+                on_map?(neighbour, dimensions)
+                  and not MapSet.member?(corruptions, neighbour)
+                  and not Map.has_key?(known_distances, neighbour)
+              end)
+            new_heap = accessible_neighbours |>
+              Enum.reduce(remaining_heap, fn neighbour, heap ->
+                Heap.push(heap, {a_heuristic(neighbour, end_point) + distance + 1, distance + 1, neighbour})
+              end)
+            distances_to_start_A(end_point, dimensions, corruptions, new_known, new_heap)
+          end
+        end
+      end
+    end
+
 
 
     @spec solve_part2(%Days.Day18{}, day_input()) :: String.t()
@@ -162,7 +221,7 @@ defmodule Days.Day18 do
 
     @spec end_point_reachable?(position(), position(), map_dimensions(), corruptions()) :: boolean()
     defp end_point_reachable?(start_point, end_point, dimensions, corruptions) do
-      0 <= shortest_distance(start_point, end_point, dimensions, corruptions)
+      0 <= shortest_distance_A(start_point, end_point, dimensions, corruptions)
     end
 
     # Returns the first blocking block, if there is any, and all corruptions, otherwise.
