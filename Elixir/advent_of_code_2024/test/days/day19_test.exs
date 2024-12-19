@@ -6,8 +6,20 @@ defmodule Day19Test do
   end
 
   test "day 19 parsing works for sample input", context do
-    input_string = ~s""
-    expected_input = input_string
+    input_string = ~s"r, wr, b, g, bwu, rb, gb, br
+
+brwrr
+bggr
+gbbr
+rrbgbr
+ubwu
+bwurrg
+brgr
+bbrgwb"
+    expected_input = {
+      ["r", "wr", "b", "g", "bwu", "rb", "gb", "br"],
+      ["brwrr", "bggr", "gbbr", "rrbgbr", "ubwu", "bwurrg", "brgr", "bbrgwb"]
+    }
 
     solver = AdventOfCode2024.day_solver(context[:day])
     {execution_time, actual_input} = :timer.tc(&DaySolver.parse_input/2, [solver, input_string])
@@ -16,8 +28,17 @@ defmodule Day19Test do
   end
 
   test "day 19 part 1 works for sample input", context do
-    input_string = ~s""
-    expected_result = "42"
+    input_string = ~s"r, wr, b, g, bwu, rb, gb, br
+
+brwrr
+bggr
+gbbr
+rrbgbr
+ubwu
+bwurrg
+brgr
+bbrgwb"
+    expected_result = "6"
 
     solver = AdventOfCode2024.day_solver(context[:day])
     input = DaySolver.parse_input(solver, input_string)
@@ -29,7 +50,7 @@ defmodule Day19Test do
   @tag timeout: :infinity
   test "day 19 part 1 works for real input", context do
     input_string = InputReader.read_day_input(context[:day])
-    expected_result = "42"
+    expected_result = "315"
 
     solver = AdventOfCode2024.day_solver(context[:day])
     input = DaySolver.parse_input(solver, input_string)
@@ -39,8 +60,17 @@ defmodule Day19Test do
   end
 
   test "day 19 part 2 works for sample input", context do
-    input_string = ~s""
-    expected_result = "42"
+    input_string = ~s"r, wr, b, g, bwu, rb, gb, br
+
+brwrr
+bggr
+gbbr
+rrbgbr
+ubwu
+bwurrg
+brgr
+bbrgwb"
+    expected_result = "16"
 
     solver = AdventOfCode2024.day_solver(context[:day])
     input = DaySolver.parse_input(solver, input_string)
@@ -52,7 +82,7 @@ defmodule Day19Test do
   @tag timeout: :infinity
   test "day 19 part 2 works for real input", context do
     input_string = InputReader.read_day_input(context[:day])
-    expected_result = "42"
+    expected_result = "625108891232249"
 
     solver = AdventOfCode2024.day_solver(context[:day])
     input = DaySolver.parse_input(solver, input_string)
