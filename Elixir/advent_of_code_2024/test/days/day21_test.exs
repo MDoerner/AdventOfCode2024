@@ -6,8 +6,18 @@ defmodule Day21Test do
   end
 
   test "day 21 parsing works for sample input", context do
-    input_string = ~s""
-    expected_input = input_string
+    input_string = ~s"029A
+980A
+179A
+456A
+379A"
+    expected_input = [
+      [0, 2, 9, :a],
+      [9, 8, 0, :a],
+      [1, 7, 9, :a],
+      [4, 5, 6, :a],
+      [3, 7, 9, :a]
+    ]
 
     solver = AdventOfCode2024.day_solver(context[:day])
     {execution_time, actual_input} = :timer.tc(&DaySolver.parse_input/2, [solver, input_string])
@@ -16,8 +26,12 @@ defmodule Day21Test do
   end
 
   test "day 21 part 1 works for sample input", context do
-    input_string = ~s""
-    expected_result = "42"
+    input_string = ~s"029A
+980A
+179A
+456A
+379A"
+    expected_result = "126384"
 
     solver = AdventOfCode2024.day_solver(context[:day])
     input = DaySolver.parse_input(solver, input_string)
@@ -39,7 +53,11 @@ defmodule Day21Test do
   end
 
   test "day 21 part 2 works for sample input", context do
-    input_string = ~s""
+    input_string = ~s"029A
+980A
+179A
+456A
+379A"
     expected_result = "42"
 
     solver = AdventOfCode2024.day_solver(context[:day])
