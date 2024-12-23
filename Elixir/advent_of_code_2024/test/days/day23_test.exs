@@ -6,8 +6,72 @@ defmodule Day23Test do
   end
 
   test "day 23 parsing works for sample input", context do
-    input_string = ~s""
-    expected_input = input_string
+    input_string = ~s"kh-tc
+qp-kh
+de-cg
+ka-co
+yn-aq
+qp-ub
+cg-tb
+vc-aq
+tb-ka
+wh-tc
+yn-cg
+kh-ub
+ta-co
+de-co
+tc-td
+tb-wq
+wh-td
+ta-ka
+td-qp
+aq-cg
+wq-ub
+ub-vc
+de-ta
+wq-aq
+wq-vc
+wh-yn
+ka-de
+kh-ta
+co-tc
+wh-qp
+tb-vc
+td-yn"
+    expected_input = [
+      {"kh", "tc"},
+      {"qp", "kh"},
+      {"de", "cg"},
+      {"ka", "co"},
+      {"yn", "aq"},
+      {"qp", "ub"},
+      {"cg", "tb"},
+      {"vc", "aq"},
+      {"tb", "ka"},
+      {"wh", "tc"},
+      {"yn", "cg"},
+      {"kh", "ub"},
+      {"ta", "co"},
+      {"de", "co"},
+      {"tc", "td"},
+      {"tb", "wq"},
+      {"wh", "td"},
+      {"ta", "ka"},
+      {"td", "qp"},
+      {"aq", "cg"},
+      {"wq", "ub"},
+      {"ub", "vc"},
+      {"de", "ta"},
+      {"wq", "aq"},
+      {"wq", "vc"},
+      {"wh", "yn"},
+      {"ka", "de"},
+      {"kh", "ta"},
+      {"co", "tc"},
+      {"wh", "qp"},
+      {"tb", "vc"},
+      {"td", "yn"},
+    ]
 
     solver = AdventOfCode2024.day_solver(context[:day])
     {execution_time, actual_input} = :timer.tc(&DaySolver.parse_input/2, [solver, input_string])
@@ -16,8 +80,39 @@ defmodule Day23Test do
   end
 
   test "day 23 part 1 works for sample input", context do
-    input_string = ~s""
-    expected_result = "42"
+    input_string = ~s"kh-tc
+qp-kh
+de-cg
+ka-co
+yn-aq
+qp-ub
+cg-tb
+vc-aq
+tb-ka
+wh-tc
+yn-cg
+kh-ub
+ta-co
+de-co
+tc-td
+tb-wq
+wh-td
+ta-ka
+td-qp
+aq-cg
+wq-ub
+ub-vc
+de-ta
+wq-aq
+wq-vc
+wh-yn
+ka-de
+kh-ta
+co-tc
+wh-qp
+tb-vc
+td-yn"
+    expected_result = "7"
 
     solver = AdventOfCode2024.day_solver(context[:day])
     input = DaySolver.parse_input(solver, input_string)
@@ -29,7 +124,7 @@ defmodule Day23Test do
   @tag timeout: :infinity
   test "day 23 part 1 works for real input", context do
     input_string = InputReader.read_day_input(context[:day])
-    expected_result = "42"
+    expected_result = "1238"
 
     solver = AdventOfCode2024.day_solver(context[:day])
     input = DaySolver.parse_input(solver, input_string)
@@ -39,8 +134,39 @@ defmodule Day23Test do
   end
 
   test "day 23 part 2 works for sample input", context do
-    input_string = ~s""
-    expected_result = "42"
+    input_string = ~s"kh-tc
+qp-kh
+de-cg
+ka-co
+yn-aq
+qp-ub
+cg-tb
+vc-aq
+tb-ka
+wh-tc
+yn-cg
+kh-ub
+ta-co
+de-co
+tc-td
+tb-wq
+wh-td
+ta-ka
+td-qp
+aq-cg
+wq-ub
+ub-vc
+de-ta
+wq-aq
+wq-vc
+wh-yn
+ka-de
+kh-ta
+co-tc
+wh-qp
+tb-vc
+td-yn"
+    expected_result = "co,de,ka,ta"
 
     solver = AdventOfCode2024.day_solver(context[:day])
     input = DaySolver.parse_input(solver, input_string)
