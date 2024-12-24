@@ -77,17 +77,24 @@ defmodule Days.Day23 do
 
     @spec largest_cluster(network, non_neg_integer()) :: cluster()
     defp largest_cluster(network, min_size) do
+      if network |> Enum.take(2) |> Enum.count() <= 1 do
+        if min_size > 1 do
+          MapSet.new()
+        else
+          MapSet.new(network |> Map.keys)
+        end
+      else
         {_, best_known} = network |>
           Enum.sort(fn {_computer, neighbours}, {_computer2, neighbours2} ->
             MapSet.size(neighbours) >= MapSet.size(neighbours2)
           end) |>
           Enum.reduce_while({min_size, MapSet.new()}, fn {computer, neighbours}, {current_min_size, best_cluster} ->
-            if MapSet.size(neighbours) < current_min_size do
+            if MapSet.size(neighbours) + 1 < current_min_size do
               {:halt, {current_min_size - 1, best_cluster}}
             else
               subnet = subnetwork(neighbours, network)
-              best_sub_cluster = largest_cluster(subnet, min_size - 1)
-              if MapSet.size(best_sub_cluster) >= min_size - 1 do
+              best_sub_cluster = largest_cluster(subnet, current_min_size - 1)
+              if MapSet.size(best_sub_cluster) >= current_min_size - 1 do
                 new_best = MapSet.put(best_sub_cluster, computer)
                 new_target_size = MapSet.size(new_best) + 1
                 {:cont, {new_target_size, new_best}}
@@ -97,6 +104,7 @@ defmodule Days.Day23 do
             end
           end)
           best_known
+        end
     end
 
     @spec subnetwork(MapSet.t(computer()), network()) :: network()
@@ -107,6 +115,51 @@ defmodule Days.Day23 do
           Map.put(subnet, computer, MapSet.intersection(neighbours, computers))
         end)
     end
+
+    # @spec largest_cluster(network, non_neg_integer()) :: cluster()
+    # defp largest_cluster(network, min_size) do
+    #   best = largest_cluster_impl(network, min_size, %{})
+    #   best[network]
+    # end
+
+    # @spec largest_cluster_impl(network, non_neg_integer(), %{network() => cluster()}) :: %{network() => cluster()}
+    # defp largest_cluster_impl(network, min_size, known_best_clusters) do
+    #   if Map.has_key?(known_best_clusters, network)
+    #     and not Enum.empty?(known_best_clusters[network]) do
+    #     known_best_clusters
+    #   else
+    #     if network |> Enum.take(2) |> Enum.count() == 1 do
+    #       if min_size > 1 do
+    #         known_best_clusters
+    #       else
+    #         Map.put(known_best_clusters, network, MapSet.new(network |> Map.keys))
+    #       end
+    #     else
+    #       {_, best_known} = network |>
+    #         Enum.sort(fn {_computer, neighbours}, {_computer2, neighbours2} ->
+    #           MapSet.size(neighbours) >= MapSet.size(neighbours2)
+    #         end) |>
+    #         Enum.reduce_while({min_size, known_best_clusters}, fn {computer, neighbours}, {current_min_size, best_clusters} ->
+    #           if MapSet.size(neighbours) + 1 < current_min_size do
+    #             {:halt, {current_min_size - 1, best_clusters}}
+    #           else
+    #             subnet = subnetwork(neighbours, network)
+    #             best_sub_clusters = largest_cluster_impl(subnet, current_min_size - 1, best_clusters)
+    #             best_sub_cluster = Map.get(best_sub_clusters, subnet, MapSet.new())
+    #             if MapSet.size(best_sub_cluster) >= current_min_size - 1 do
+    #               new_best = MapSet.put(best_sub_cluster, computer)
+    #               new_target_size = MapSet.size(new_best) + 1
+    #               {:cont, {new_target_size, Map.put(best_sub_clusters, network, new_best)}}
+    #             else
+    #               {:cont, {current_min_size, best_clusters}}
+    #             end
+    #           end
+    #         end)
+    #     best_known
+    #     end
+
+    #   end
+    # end
 
   end
 end

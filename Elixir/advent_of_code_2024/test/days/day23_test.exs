@@ -175,10 +175,12 @@ td-yn"
     assert actual_result == expected_result
   end
 
+  # Takes too long to stay in the general test suite.
+
   @tag timeout: :infinity
   test "day 23 part 2 works for real input", context do
     input_string = InputReader.read_day_input(context[:day])
-    expected_result = "42"
+    expected_result = "bg,bl,ch,fn,fv,gd,jn,kk,lk,pv,rr,tb,vw"
 
     solver = AdventOfCode2024.day_solver(context[:day])
     input = DaySolver.parse_input(solver, input_string)
