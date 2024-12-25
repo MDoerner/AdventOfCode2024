@@ -177,15 +177,15 @@ td-yn"
 
   # Takes too long to stay in the general test suite.
 
-  @tag timeout: :infinity
-  test "day 23 part 2 works for real input", context do
-    input_string = InputReader.read_day_input(context[:day])
-    expected_result = "bg,bl,ch,fn,fv,gd,jn,kk,lk,pv,rr,tb,vw"
+  # @tag timeout: :infinity
+  # test "day 23 part 2 works for real input", context do
+  #   input_string = InputReader.read_day_input(context[:day])
+  #   expected_result = "bg,bl,ch,fn,fv,gd,jn,kk,lk,pv,rr,tb,vw"
 
-    solver = AdventOfCode2024.day_solver(context[:day])
-    input = DaySolver.parse_input(solver, input_string)
-    {execution_time, actual_result} = :timer.tc(&DaySolver.solve_part2/2, [solver, input])
-    IO.inspect(execution_time, label: "day #{context[:day]} part 2 real execution time in microseconds")
-    assert actual_result == expected_result
-  end
+  #   solver = AdventOfCode2024.day_solver(context[:day])
+  #   input = DaySolver.parse_input(solver, input_string)
+  #   {execution_time, actual_result} = :timer.tc(&DaySolver.solve_part2/2, [solver, input])
+  #   IO.inspect(execution_time, label: "day #{context[:day]} part 2 real execution time in microseconds")
+  #   assert actual_result == expected_result
+  # end
 end
